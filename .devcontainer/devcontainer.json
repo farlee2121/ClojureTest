@@ -1,0 +1,16 @@
+{
+    "name": "Clojure env",
+    "dockerFile": "Dockerfile",
+  
+    "settings": {
+      "terminal.integrated.shell.linux": "/bin/bash"
+    },
+  
+    "extensions": ["betterthantomorrow.calva"],
+  
+    // "forwardPorts": [3000],
+  
+    // "postCreateCommand": "yarn install",
+  
+    // "remoteUser": "node"
+  }
