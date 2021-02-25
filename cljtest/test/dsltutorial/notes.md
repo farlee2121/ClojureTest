@@ -44,3 +44,11 @@ How would I accomplish the same as a multimethod in F#?
 - probably a command pattern? 
 - Maybe a map of {type, type -> string}?
 
+`defmulti` decided what the multimethod dispatches on
+
+!!! Inheritance is ad-hoc. Seperate from defining the type definitions
+- Unions are used a similar way in F#
+
+
+I had a heck of a time figuring out keyword namespacing. Here is a good guide
+- https://blog.jeaye.com/2017/10/31/clojure-keywords/

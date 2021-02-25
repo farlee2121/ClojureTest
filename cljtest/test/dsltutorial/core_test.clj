@@ -1,6 +1,6 @@
 (ns dsltutorial.core-test
   (:require [clojure.test :refer :all]
-            [dsltutorial.core :as dsl]
+            [dsltutorial.core  :as dsl]
             [clojure.test.check :as tc]
             [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop]
@@ -21,18 +21,21 @@
 
 (deftest emit-bash
   (testing "emit strings"
-    (is (= "hello world" (dsl/emit-bash "hello world")))
-    (test-prop "String returns self" 100 (prop/for-all [str non-nil-string] (= str (dsl/emit-bash str)))))
+    (is (= "hello world" (dsl/emit-lang ::dsl/bash "hello world")))
+    (test-prop "String returns self" 100 (prop/for-all [str non-nil-string] (= str (dsl/emit-lang ::dsl/bash str)))))
   (testing "emit numbers"
-    (is (= "1" (dsl/emit-bash 1)))
-    (is (= "12.1" (dsl/emit-bash 12.1)))
-    (test-prop "int-returns-self" 100 (prop/for-all [n gen/int] (= (str n) (dsl/emit-bash n)))))
+    (is (= "1" (dsl/emit-lang ::dsl/bash 1)))
+    (is (= "12.1" (dsl/emit-lang ::dsl/bash 12.1)))
+    (test-prop "int-returns-self" 100 (prop/for-all [n gen/int] (= (str n) (dsl/emit-lang ::dsl/bash n)))))
   (testing "commands"
     (testing "print"
-      (is (= "echo hello" (dsl/emit-bash '(println "hello"))))
-      (prop-is 100 (prop/for-all [_str non-nil-string] (= (str "echo" " " _str) (dsl/emit-bash `(println ~@_str)))))
+      (is (= "echo hello" (dsl/emit-lang ::dsl/bash (println "hello"))))
+      (prop-is 100 (prop/for-all [_str non-nil-string] (= (str "echo " _str) (dsl/emit-lang ::dsl/bash `(println ~@_str)))))
       )
     )
+  (testing "unknown form" 
+    (is (thrown? IllegalArgumentException 
+                 (dsl/emit-lang ::dsl/bash (+ 1 2)))))
   )
 
 

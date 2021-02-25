@@ -1,26 +1,40 @@
 (ns dsltutorial.core)
 
-(defmulti emit-bash
-  (fn [form]
-    (class form)))
+(derive ::bash ::common)
+(derive ::batch ::common)
 
-(defmethod emit-bash
-  clojure.lang.PersistentList
+(def ^{:dynamic true}
+  ;; The current script language implementation to generate
+  *current-implementation*)
+
+(defmulti emit
+  (fn [form]
+    [*current-implementation* (class form)]))
+
+(defmethod emit [::bash clojure.lang.PersistentList]
   [form]
   (case (name (first form))
     "println" (str "echo " (second form))))
 
-(defmethod emit-bash
-  java.lang.String
+(defmethod emit [::common java.lang.String]
   [form]
   form)
 
-(defmethod emit-bash
-  java.lang.Long
+(defmethod emit [::common java.lang.Long]
   [form]
   (str form))
 
-(defmethod emit-bash
-  java.lang.Double
+(defmethod emit [::common java.lang.Double]
   [form]
   (str form))
+
+
+
+(defmacro emit-lang [lang form]
+  `(binding [*current-implementation* ~lang]
+    (emit '~form))
+  )
+
+;; (defn emit-lang [lang form]
+;;   (binding [*current-implementation* lang]
+;;     (emit form)))
