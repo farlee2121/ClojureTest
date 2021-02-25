@@ -1,4 +1,4 @@
-(ns digpow.core
+(ns kata.core
   (:require
 
    [clojure.string :refer [split]]

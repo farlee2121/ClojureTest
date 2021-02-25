@@ -5,7 +5,8 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [
     [org.clojure/clojure "1.10.1"]
-    [org.clojure/math.numeric-tower "0.0.4"]            
+    [org.clojure/math.numeric-tower "0.0.4"]
+    [org.clojure/test.check "1.1.0"]            
   ]
   :main ^:skip-aot cljtest.core
   :target-path "target/%s"
