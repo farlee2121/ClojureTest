@@ -18,7 +18,7 @@
   string?
   (s/and int? #(<= 10000 %) #(<= % 99999))
 ))
-(s/def ::address (s/keys :req[::street ::city ::state ::zip]))
+(s/def ::address (s/keys :req [::street ::city ::state ::zip]))
 
 (s/def ::location (s/or ::coordinate ::address))
 (s/def ::location-list (s/* ::location ))
